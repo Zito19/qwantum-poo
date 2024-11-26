@@ -33,7 +33,15 @@ public class Vista implements Observer {
         // recibe las 4 tablas del jugador por color y las muestra
         System.out.println(" ");
         System.out.println("TABLAS DE PUNTOS POR COLOR:");
-
+        // 1-4 MAYORES
+        System.out.print("INSERCION: ");
+        for (int i = 0; i < 4; i++) {
+            System.out.print("[+] ");
+        }
+        // 5-6 MENORES
+        for (int i = 0; i < 2; i++) {
+            System.out.print("[-] ");
+        }
         for (int i = 0; i < tablas.size() - 2; i++) { //no agarra la tabla resultados y faltas
             Color color = Color.getColorPorNumero(i);
             int[] tablaPuntos = tablas.get(i);
