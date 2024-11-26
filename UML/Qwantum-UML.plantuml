@@ -1,0 +1,236 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+enum Color << enumeration >> {
+  + Color(): 
+  + valueOf(String): Color
+  + cantidadColores(): int
+  + getColorPorNumero(int): Color
+  + values(): Color[]
+}
+class Controlador {
+  + Controlador(ModeloJuego, Vista): 
+  + verificarInputEnteros(int, int, int): boolean
+  + insertarPuntos(Jugador): boolean
+  + jugar(): void
+}
+class Dado {
+  + Dado(): 
+  - mezclarColoresDados(): void
+  + tirarDado(): Elemento
+  + toString(): String
+}
+class DadoBlanco {
+  + DadoBlanco(): 
+}
+class Elemento {
+  + Elemento(int, Color): 
+  + Elemento(int, int): 
+  - color: Color
+  - valor: int
+  + toString(): String
+   valor: int
+   color: Color
+   colorOrdinal: int
+}
+class Jugador {
+  + Jugador(String): 
+  - nombre: String
+  - idJugador: int
+  - turnosSalteados: int
+  + setSaltoturno(): void
+  + resetTurnosSalteados(): void
+   turnosSalteados: int
+   tablaJugador: TablaGeneral
+   idJugador: int
+   nombre: String
+}
+class Main {
+  + Main(): 
+  + main(String[]): void
+}
+class ModeloJuego {
+  - ModeloJuego(): 
+  - instancia: ModeloJuego
+  - jugadorActual: Jugador
+  - tiradorDeDados: TiradorDeDados
+  - jugadores: List<Jugador>
+  - procesadorResultadosDados: ProcesadorResultadosDados
+  + eliminarResultado(int): boolean
+  + mostrarTabla(Jugador): void
+  + tablaResultadosLlena(Jugador): boolean
+  + tablaFaltasLlena(Jugador): boolean
+  + resultadosTiradaXColor(): void
+  + validarNombreJugador(String): Boolean
+  + resultadosFinales(): void
+  + agregarPuntos(Jugador, Elemento, boolean): boolean
+  + cambiarTurno(): Jugador
+  + getResultadoPorColor(int): Elemento
+  + tirarDados(): void
+  + juegoTerminado(): boolean
+  + agregarJugador(String): Jugador
+  + validarCantidadJugadores(Integer): Boolean
+   jugadores: List<Jugador>
+   jugadorActual: Jugador
+   resultadoJuego: ResultadoJuego
+   faltaJugador: Jugador
+   instancia: ModeloJuego
+   tablaJugador: TablaGeneral
+   procesadorResultadosDados: ProcesadorResultadosDados
+   tiradorDeDados: TiradorDeDados
+}
+interface Observable << interface >> {
+  + agregarObservador(Observer): void
+  + notificar(): void
+  + eliminarObservador(Observer): void
+}
+interface Observer << interface >> {
+  + actualizarTablasJugador(List<int[]>): void
+  + resultadosFinales(List<Object[]>): void
+  + actualizarDados(Elemento[]): void
+  + actualizarResultadosXColor(Elemento[]): void
+}
+class ProcesadorResultadosDados {
+  - ProcesadorResultadosDados(): 
+  - instancia: ProcesadorResultadosDados
+  + eliminarObservador(Observer): void
+  + notificar(): void
+  + procesarResultadosDados(): void
+  + agregarObservador(Observer): void
+  + reiniciarColor(Color): void
+  + getResultadoPorColor(Color): Elemento
+  + mostrarResultadosPorColorRestantes(): void
+   instancia: ProcesadorResultadosDados
+}
+class ResultadoJuego {
+  + ResultadoJuego(): 
+  + notificar(): void
+  + eliminarObservador(Observer): void
+  + agregarObservador(Observer): void
+  + obtenerResultadosDeJugadores(List<Jugador>): void
+}
+class Tabla {
+  + Tabla(int): 
+  # tabla: int[]
+  + tablaLLena(): boolean
+  + tablaVacia(): boolean
+  + contiene(int): boolean
+   tabla: int[]
+}
+class TablaFaltas {
+  + TablaFaltas(): 
+  + tablaLLena(): boolean
+  + sacarFalta(): void
+  + toString(): String
+  + calcularPenalizacion(): int
+  + setFalta(): boolean
+   tabla: int[]
+}
+class TablaGeneral {
+  + TablaGeneral(): 
+  + obtenerTodasLasTablas(): List<int[]>
+  + mostrarTabla(): void
+  + setPunto(Elemento, boolean): boolean
+  + notificar(): void
+  + setFalta(): boolean
+  + tablaFaltasLlena(): boolean
+  + obtenerResultadosFinales(): int[]
+  + agregarObservador(Observer): void
+  + eliminarObservador(Observer): void
+  + tablaResultadosLlena(): boolean
+   resultadoFinal: int
+}
+class TablaPuntos {
+  + TablaPuntos(): 
+  - insertarEnMenores(int): void
+  + agregarPuntos(int, boolean): boolean
+  + puedeInsertarMayores(int): boolean
+  - insertarEnMayores(int): void
+  + puedeInsertarMenores(int): boolean
+  + tablaLLena(): boolean
+}
+class TablaResultados {
+  + TablaResultados(): 
+  + calcularResultado(TablaPuntos[]): void
+  + tablaLLena(): boolean
+   sumaTotal: int
+   tabla: int[]
+}
+class TiradorDeDados {
+  - TiradorDeDados(): 
+  - instancia: TiradorDeDados
+  + notificar(): void
+  + eliminarObservador(Observer): void
+  + tirarDados(): void
+  + agregarObservador(Observer): void
+   resultadoDados: Elemento[]
+   instancia: TiradorDeDados
+}
+class Vista {
+  + Vista(): 
+  + mostrarBienvenida(): void
+  + mostrarGameover(): void
+  + mostrarOpcionInvalida(): void
+  + vistaRonda(int): void
+  + resultadosFinales(List<Object[]>): void
+  + inputCantidadJugadores(): Integer
+  + inputMenuPrincipal(): Integer
+  + mostrarCantidadDeJugadoresIncorrecta(): void
+  + inputSeleccionarAccionJugada(): int
+  + mostrarNombreTurnoJugador(String): void
+  + inputSeleccionarModoDeInsercion(): int
+  + actualizarResultadosXColor(Elemento[]): void
+  + actualizarTablasJugador(List<int[]>): void
+  + mostrarNombreDeJugadorIncorrecto(): void
+  + inputSeleccionarColor(): int
+  + inputIntentarDeNuevoInsercion(): int
+  + actualizarDados(Elemento[]): void
+  + inputNombreJugador(Integer): String
+}
+
+Controlador               "1" *-[#595959,plain]-> "juego\n1" ModeloJuego               
+Controlador               "1" *-[#595959,plain]-> "vista\n1" Vista                     
+Dado                       -[#595959,dashed]->  Color                     : "«create»"
+Dado                      "1" *-[#595959,plain]-> "cara\n*" Color                     
+Dado                       -[#595959,dashed]->  Elemento                  : "«create»"
+DadoBlanco                 -[#000082,plain]-^  Dado                      
+Elemento                  "1" *-[#595959,plain]-> "color\n1" Color                     
+Jugador                   "1" *-[#595959,plain]-> "tabla\n1" TablaGeneral              
+Jugador                    -[#595959,dashed]->  TablaGeneral              : "«create»"
+Main                       -[#595959,dashed]->  Controlador               : "«create»"
+ModeloJuego               "1" *-[#595959,plain]-> "jugadores\n*" Jugador                   
+ModeloJuego                -[#595959,dashed]->  Jugador                   : "«create»"
+ModeloJuego               "1" *-[#595959,plain]-> "procesadorResultadosDados\n1" ProcesadorResultadosDados 
+ModeloJuego               "1" *-[#595959,plain]-> "procesadorResultadosFinales\n1" ResultadoJuego            
+ModeloJuego                -[#595959,dashed]->  ResultadoJuego            : "«create»"
+ModeloJuego               "1" *-[#595959,plain]-> "tiradorDeDados\n1" TiradorDeDados            
+ProcesadorResultadosDados "1" *-[#595959,plain]-> "resultadosXColor\n*" Elemento                  
+ProcesadorResultadosDados  -[#595959,dashed]->  Elemento                  : "«create»"
+ProcesadorResultadosDados  -[#008200,dashed]-^  Observable                
+ProcesadorResultadosDados "1" *-[#595959,plain]-> "observadores\n*" Observer                  
+ProcesadorResultadosDados "1" *-[#595959,plain]-> "tiradorDeDados\n1" TiradorDeDados            
+ResultadoJuego             -[#008200,dashed]-^  Observable                
+ResultadoJuego            "1" *-[#595959,plain]-> "observadores\n*" Observer                  
+TablaFaltas                -[#000082,plain]-^  Tabla                     
+TablaGeneral               -[#008200,dashed]-^  Observable                
+TablaGeneral              "1" *-[#595959,plain]-> "observadores\n*" Observer                  
+TablaGeneral              "1" *-[#595959,plain]-> "tablaFaltas\n1" TablaFaltas               
+TablaGeneral               -[#595959,dashed]->  TablaFaltas               : "«create»"
+TablaGeneral              "1" *-[#595959,plain]-> "tablaPuntos\n*" TablaPuntos               
+TablaGeneral               -[#595959,dashed]->  TablaPuntos               : "«create»"
+TablaGeneral               -[#595959,dashed]->  TablaResultados           : "«create»"
+TablaGeneral              "1" *-[#595959,plain]-> "tablaResultados\n1" TablaResultados           
+TablaPuntos                -[#000082,plain]-^  Tabla                     
+TablaResultados            -[#000082,plain]-^  Tabla                     
+TiradorDeDados             -[#595959,dashed]->  Dado                      : "«create»"
+TiradorDeDados            "1" *-[#595959,plain]-> "dados\n*" Dado                      
+TiradorDeDados             -[#595959,dashed]->  DadoBlanco                : "«create»"
+TiradorDeDados             -[#595959,dashed]->  Elemento                  : "«create»"
+TiradorDeDados            "1" *-[#595959,plain]-> "resultadosDados\n*" Elemento                  
+TiradorDeDados             -[#008200,dashed]-^  Observable                
+TiradorDeDados            "1" *-[#595959,plain]-> "observadores\n*" Observer                  
+Vista                      -[#008200,dashed]-^  Observer                  
+@enduml
