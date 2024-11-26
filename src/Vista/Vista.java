@@ -42,6 +42,7 @@ public class Vista implements Observer {
         for (int i = 0; i < 2; i++) {
             System.out.print("[-] ");
         }
+         System.out.println(" ");
         for (int i = 0; i < tablas.size() - 2; i++) { //no agarra la tabla resultados y faltas
             Color color = Color.getColorPorNumero(i);
             int[] tablaPuntos = tablas.get(i);
